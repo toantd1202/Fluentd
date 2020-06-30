@@ -1,13 +1,24 @@
 # Fluentd là gì?
-Fluentd là một trình thu thập dữ liệu nguồn mở cho các logs. Fluentd cho phép bạn thống nhất thu thập, quản ly, sử dụng và hiểu dữ liệu tốt hơn.
+Với những hệ thống lớn việc quản lý log và phân loại log bằng việc xem file log của server để xác định thông tin của log, phân loại log là khá khó khăn. Cần thiết phải có một công cụ quản lý log một cách tốt hơn, sớm phát hiện những lỗi phát sinh của server hoặc kiểm tra các thông tin về log. Hiện nay cũng có khá nhiều công cụ để quản lý log khác nhau. 
+
++ "Fluentd" is an open-source tool to collect events and logs.
++ Fluentd là một phần mềm trung gian tuyệt vời dựa trên Ruby dùng để đọc, xử lý và gửi log.
++ Fluentd cũng có thể được mở rộng bằng cách viết plugin, hiện nay có nhiều plugin đã được develop và public.
 
 Fluentd được cấp phép theo các điều khoản của Apache License v2.0. Dự án này được thực hiện và tài trợ bởi Treasure Data.
 
 # Kiến trúc
-Fluentd coi các bản ghi là JSON, một định dạng phổ biến có thể đọc được bằng máy. Nó được viết chủ yếu bằng C với các phần nhạy cảm về hiệu năng, Ruby cũng được sử dụng chút ít giúp người dùng linh hoạt.
+Fluentd coi các bản ghi là JSON, một định dạng phổ biến có thể đọc được bằng máy. Nó được viết chủ yếu bằng C với các phần về hiệu năng, Ruby cũng được sử dụng chút ít giúp người dùng linh hoạt.
 ![Screenshot from 2020-06-23 15-37-19](https://user-images.githubusercontent.com/61723456/85389819-203d2a00-b572-11ea-87a4-f0d43cd50999.png)
 
-Fluentd thực hiệt thu thập logs của sự kiện từ các ứng dụng, hệ thống,... giúp người dùng phân tích, đưa ra thông báo và quản lý các phần tử đó.
+### Hoạt động của bộ công cụ: Fluentd, Elasticsearch, Kibana
+![mô hình EFK](https://user-images.githubusercontent.com/61723456/86105185-3a828500-bae9-11ea-811c-472c1ea4d344.png)
+
++ Đầu tiên, log sẽ được đưa đến Fluentd. (Ví dụ như log access server nginx/apache, log do develop setting trong source php/java vv. miễn là có ghi ra file log).
++ Fluentd sẽ đọc những log này, thêm những thông tin như thời gian, IP, parse dữ liệu từ log (server nào, độ nghiêm trọng, nội dung log) ra, sau đó ghi xuống database là Elasticsearch.
++ Khi muốn xem log, người dùng vào URL của Kibana. Kibana sẽ đọc thông tin log trong Elasticsearch, hiển thị lên giao diện cho người dùng query và xử lý.
++ Log có nhiều loại (tag), do developer định nghĩa chẳng hạn access_log error_log, peformance_log, api_log. Khi Fluentd đọc log và phân loại từng loại log rồi gửi đến Elasticsearch, ở giao diện Kibana chúng ta chỉ cần add một số filter như access_log chẳng hạn và query.
+
 
 # Fluentd
 
