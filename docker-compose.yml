@@ -1,0 +1,16 @@
+version: '3'
+services:
+ fluentd:
+  build: .
+  volumes:
+    - ./conf:/fluentd/etc
+  ports:
+    - "24224:24224"
+    - "24224:24224/udp"
+
+ elasticsearch:
+  image: elasticsearch:7.2.0
+  environment:
+    - "discovery.type=single-node"
+  ports:
+    - "9200:9200"
